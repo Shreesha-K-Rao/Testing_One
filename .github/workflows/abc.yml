@@ -1,0 +1,27 @@
+# File: .github/workflows/OIDC_workflow.yml
+
+name: Run Azure Login with OIDC
+on: [push]
+
+permissions:
+      id-token: write
+      contents: read
+      
+jobs: 
+  Windows-latest:
+      runs-on: windows-latest
+      steps:
+        - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
+          uses: azure/login@v1
+          with:
+            client-id: ${{" 64c75b6b-f0dc-4c5a-92b5-eaed91a1351b "}}
+            tenant-id: ${{ "e3cf3c98-a978-465f-8254-9d541eeea73c" }}
+            subscription-id: ${{ "2669eac0-9b40-4260-ac51-4b3cde5f3f5b" }} 
+            enable-AzPSSession: true
+
+        - name: 'Get RG with powershell action'
+          uses: azure/powershell@v1
+          with:
+             inlineScript: |
+               Get-AzResourceGroup
+             azPSVersion: "latest"
